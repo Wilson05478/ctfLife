@@ -2,7 +2,7 @@ import { useState } from "react";
 import CoursesView from "./Courses";
 import CourseExpandedView from "./CourseExpanded";
 
-export default function LearnView (props) {
+export default function LearnView (props: { notify: any; }) {
     const { notify } = props;
     const [lessonId, setLessonId] = useState<string | null>(null);
     const [isExpanded, setIsExpanded] = useState(false);

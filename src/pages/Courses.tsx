@@ -1,4 +1,4 @@
-import { Box, BrainCircuit, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { fetchData } from "../api";
 import Card from "@mui/material/Card";
@@ -8,10 +8,10 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { ClipLoader } from "react-spinners";
+import { Courses } from "../types";
 
 
-
-function LessonCard(props) {
+function LessonCard(props: { courses: any; toggleLessonDetails: any; }) {
   const { courses, toggleLessonDetails } = props;
   if (!Array.isArray(courses)) return null;
   return courses.map((course, idx) => (
@@ -39,9 +39,9 @@ function LessonCard(props) {
   ));
 }
 
-export default function CoursesView(props) {
+export default function CoursesView(props: { toggleLessonDetails: any; }) {
     const { toggleLessonDetails } = props;
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<Courses>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -68,6 +68,7 @@ export default function CoursesView(props) {
     if (error) return <p>Error loading data!</p>;
     return (
       <div className="p-4 pb-24 space-y-6">
+        <h2 className="text-3xl font-bold">Lessons</h2>
         <div className="space-y-8 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:justify-center lg:items-center">
           <LessonCard courses={data} toggleLessonDetails={toggleLessonDetails} />
         </div>

@@ -12,20 +12,24 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { ButtonGroup } from "@mui/material";
 import { ClipLoader } from "react-spinners";
+import { CourseContent, Sections } from "../types";
 
-const override: CSSProperties = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "red",
-};
 
-export function QuizView(props) {
+export function QuizView(props: { toggleQuiz: any; sectionId: any; notify: any; isExplanation: any; setIsExplanation: any; }) {
     const { toggleQuiz, sectionId, notify, isExplanation, setIsExplanation } = props;
-    const [data, setData] = useState<{ sections?: any[] }>({});
+    const [data, setData] = useState<CourseContent>({
+        content: '',
+        quiz: {
+            correct_answer: '',
+            explanation: '',
+            options: [],
+            question: ''
+        },
+        status: ''
+    });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [startQuiz, setStartQuiz] = useState(false);
@@ -34,7 +38,6 @@ export function QuizView(props) {
 
     const completeQuiz = async () => {
         try {
-            const response = await postData(`/student/student/section/${sectionId}/submit?correct=true`);
         } catch (error) {
             console.error("Error completing quiz:", error);
         }
@@ -73,7 +76,7 @@ export function QuizView(props) {
               // schedule next poll after 2s
               timeoutId = window.setTimeout(pollEnroll, 10000);
             }
-          } catch (err) {
+          } catch (err: any) {
             setError(err);
             setLoading(false);
             // optionally stop on error or retry:
@@ -161,10 +164,13 @@ export function QuizView(props) {
     );
 }
 
-export function SectionsPath(props) {
+export function SectionsPath(props: { lessonId: any; setSectionId: any; toggleQuiz: any; }) {
 
     const {lessonId,setSectionId, toggleQuiz} = props;
-    const [data, setData] = useState<{ sections?: any[] }>({});
+    const [data, setData] = useState<Sections>({
+        course: '',
+        sections: []
+    });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeStep, setActiveStep] = React.useState(0);
@@ -196,7 +202,7 @@ export function SectionsPath(props) {
               // schedule next poll after 2s
               timeoutId = window.setTimeout(pollEnroll, 10000);
             }
-          } catch (err) {
+          } catch (err: any) {
             setError(err);
             setLoading(false);
             // optionally stop on error or retry:
@@ -292,7 +298,7 @@ export function SectionsPath(props) {
     );
 }
 
-export default function CourseExpandedView(props) {
+export default function CourseExpandedView(props: { lessonId: any; notify: any; closeLessonDetails: any; }) {
     const {lessonId,notify, closeLessonDetails} = props;
     const [isQuizOpen, setIsQuizOpen] = useState(false);
     const [sectionId, setSectionId] = useState<string | null>(null);
@@ -306,8 +312,8 @@ export default function CourseExpandedView(props) {
         <div className="text-2xl ml-4 mb-22" style={{width: '95%'}}>
             {!isExplanation && <ChevronLeft onClick={isQuizOpen? toggleQuiz: closeLessonDetails} size={30} className="mt-6 text-gray-500 "/>}
             {!isQuizOpen && 
-                <div>
-                    <SectionsPath className="mt-6" lessonId={lessonId} setSectionId={setSectionId} toggleQuiz={toggleQuiz}/>
+                <div className="mt-6">
+                    <SectionsPath lessonId={lessonId} setSectionId={setSectionId} toggleQuiz={toggleQuiz}/>
                 </div>
             }
             {isQuizOpen && <QuizView toggleQuiz={toggleQuiz} sectionId={sectionId} notify={notify} isExplanation={isExplanation} setIsExplanation={setIsExplanation}/>}

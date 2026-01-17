@@ -53,11 +53,31 @@ export interface Lesson {
 }
 
 export interface QuizQuestion {
-  id: number;
-  question: string;
-  options: string[];
-  correctIndex: number;
+  correct_answer: string;
   explanation: string;
+  options: string[];
+  question: string;
+}
+export interface Section {
+  id: number;
+  title: string;
+  is_completed: boolean;
+  is_locked: boolean;
+}
+export interface Sections {
+  course: string;
+  sections: Section[];
+}
+
+export interface CourseContent {
+  content: string;
+  quiz: QuizQuestion;
+  status?: string;
+}
+
+export interface CourseDetailResponse {
+  course: string;
+  sections: Section[];
 }
 
 export interface RewardItem {
@@ -87,3 +107,12 @@ export interface RegisterForm {
   interests: string[];
   otherInterest: string;
 }
+
+export interface Course {
+  description: string;
+  id: number;
+  progress: number;
+  title: string;
+}
+
+export type Courses = Course[];

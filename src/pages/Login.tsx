@@ -1,14 +1,8 @@
-import { INITIAL_USER } from '@/App';
-import { User, View } from '@/types';
-import { colors } from '@mui/material';
 import Button from '@mui/material/Button';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Logo from './logo.png';
-import { Scale } from 'lucide-react';
 
-export default function LoginView(props) {
-    const { View, setView, handleLogin, toggleLogInForm, loginForm } = props;
+export default function LoginView(props: { toggleView?: any; View?: any; handleLogin?: any; toggleLogInForm?: any; loginForm?: any; }) {
+    const { View, handleLogin, toggleLogInForm, loginForm } = props;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-slate-900 text-white">

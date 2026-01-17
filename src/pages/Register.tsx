@@ -1,10 +1,10 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import Interest from "./Interest";
 import UserInfo from "./UserInfo";
 import axios from "axios";
-import { RegisterForm } from "@/types";
+import { RegisterForm } from "../types";
 
-export default function Register(props) {
+export default function Register(props: { View: any; toggleView: any; notify: any; }) {
     const {View, toggleView, notify} = props;
     const [isInterest, setIsInterest] = useState(false);
     const toggleButton = () => {
@@ -56,7 +56,7 @@ export default function Register(props) {
         toggleButton();
     };
 
-    const handleSubmit=async(e) =>{
+    const handleSubmit=async(e: { preventDefault: () => void; }) =>{
         e.preventDefault();
         if (form.otherInterest && !form.interests.includes(form.otherInterest)) {
             toggleFormInterest(form.otherInterest);
@@ -74,9 +74,7 @@ export default function Register(props) {
           interests: form.interests.join(","),
         };
         try{
-              const response = await axios.post("/users/register", newUser); 
-              const data = response.data;
-
+              const response = await axios.post("/users/register", newUser);
               notify('User Registered Successfully', 'success');
               toggleView(View.LOGIN);
             } catch(error){
