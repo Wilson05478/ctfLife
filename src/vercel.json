@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/users/:match*",
+      "destination": "https://ctflife-demo.zeabur.app/users/:match*"
+    },
+    {
+      "source": "/student/:match*",
+      "destination": "https://ctflife-demo.zeabur.app/student/:match*"
+    },
+    {
+      "source": "/auth/:match*",
+      "destination": "https://ctflife-demo.zeabur.app/auth/:match*"
+    },
+    {
+      "source": "/course_content/:match*",
+      "destination": "https://ctflife-demo.zeabur.app/course_content/:match*"
+    }
+  ]
+}
