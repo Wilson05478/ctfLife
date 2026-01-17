@@ -1,7 +1,35 @@
 import { Bot, Gift, Handshake, PlayCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { fetchData } from "../api";
+import { INITIAL_USER } from "../App";
+import { ClipLoader } from "react-spinners";
 
-  export default function HomeView (props: { user: any; eventNum: any; View: any; setView: any; }) {
-      const { user, eventNum, View, setView } = props;
+  export default function HomeView (props: { user: any; setUser: any; eventNum: any; View: any; setView: any; }) {
+      const { user, setUser, eventNum, View, setView } = props;
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+
+      useEffect(() => {
+        fetchData('/users/me')
+          .then(data => {
+            setUser({ ...INITIAL_USER, username: data.username });
+            setLoading(false);
+          })
+          .catch(err => {
+            setError(err);
+            setLoading(false);
+          });
+      }, []);
+    
+    if (loading) return <div className="fixed inset-0 flex items-center justify-center bg-white">
+                            <ClipLoader 
+                                color="#009689" 
+                                loading={loading} 
+                                size={150} 
+                                aria-label="Loading Spinner" 
+                                data-testid="loader" />
+                        </div>
+      if (error) return <p>Error loading data!</p>;
     
       return (
       <div className="p-4 space-y-6 pb-24">
